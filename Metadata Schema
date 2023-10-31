@@ -96,7 +96,7 @@ ex:Dataset
       "ex:dataset_collaborators": ["Raphael Fontes", "David Lu!!"],
       "ex:dataset_creation_date": { "@value": "2023-03-29", "@type": "xsd:date" },
       "ex:dataset_license": "CC0: Public Domain",
-      "ex:dataset_url": "http://example.com/dataset/sample"
+      "ex:dataset_url": "https://www.kaggle.com/datasets/unanimad/the-oscar-award"
     }
   ]
 }
