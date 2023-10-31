@@ -1,0 +1,102 @@
+##################### METADATA SCHEMA #####################
+1.           Shapes Graph
+
+@prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix ex: <http://example.com/dataset#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+# Define a shape for the dataset
+ex:DatasetShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path "dataset_name" ;
+        sh:name "Dataset Name" ;
+        sh:description "The name of the dataset" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "dataset_description" ;
+        sh:name "Dataset Description" ;
+        sh:description "A dataset of Oscar nominations. This dataset contains the following columns:" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "dataset_creator" ;
+        sh:name "Dataset Creator" ;
+        sh:description "The name of the dataset creator or publisher" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "dataset_collaborators" ;
+        sh:name "Dataset collaborators" ;
+        sh:description "The name of the dataset collaborators" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "dataset_creation_date" ;
+        sh:name "Dataset Creation Date" ;
+        sh:description "The date the dataset was created" ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path "dataset_license" ;
+        sh:name "Dataset License" ;
+        sh:description "The license under which the dataset is published" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "dataset_url" ;
+        sh:name "Dataset URL" ;
+        sh:description "URL where the dataset can be found" ;
+        sh:datatype xsd:anyURI ;
+    ] .
+
+# Define a shape for the dataset columns
+ex:ColumnShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path "column_name" ;
+        sh:name "Column Name" ;
+        sh:description "The name of the dataset column" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "column_description" ;
+        sh:name "Column Description" ;
+        sh:description "A description of the data contained in this column" ;
+        sh:datatype xsd:string ;
+    ] .
+
+# Link the dataset and columns to their respective shapes
+ex:Dataset
+    a rdfs:Class ;
+    sh:node ex:DatasetShape ;
+    sh:property [
+        sh:path "hasColumn" ;
+        sh:name "Has Column" ;
+        sh:description "A column within the dataset" ;
+        sh:node ex:ColumnShape ;
+    ] .
+
+2. Data Graph
+
+{
+  "@context": {
+    "ex": "http://example.com/dataset#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "ex:SampleDataset",
+      "@type": "ex:Dataset",
+      "ex:dataset_name": "Oscar Nominations",
+      "ex:dataset_description": "A dataset of Oscar nominationsf rom 1928 till 2023. This dataset contains the following columns: 1. year_film: The year the film was released. 2. year_ceremony: The year of the Oscar ceremony. 3. ceremony_nr: The number of the Oscar ceremony. 4. entity: The person or organization nominated. 5. category: The category for which the nominee was nominated. 6. film_name: The name of the movie. 7. winner: Indicates if the nominee was a winner.",
+      "ex:dataset_creator": "",
+      "ex:dataset_collaborators": ["Raphael Fontes", "David Lu!!"],
+      "ex:dataset_creation_date": { "@value": "2023-03-29", "@type": "xsd:date" },
+      "ex:dataset_license": "CC0: Public Domain",
+      "ex:dataset_url": "http://example.com/dataset/sample"
+    }
+  ]
+}
