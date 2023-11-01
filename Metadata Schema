@@ -29,8 +29,8 @@ ex:DatasetShape
     ] ;
     sh:property [
         sh:path "dataset_collaborators" ;
-        sh:name "Dataset collaborators" ;
-        sh:description "The name of the dataset collaborators" ;
+        sh:name "Dataset Creator" ;
+        sh:description "The name of the dataset creator or publisher" ;
         sh:datatype xsd:string ;
     ] ;
     sh:property [
@@ -46,11 +46,45 @@ ex:DatasetShape
         sh:datatype xsd:string ;
     ] ;
     sh:property [
+        sh:path "dataset_DOI" ;
+        sh:name "Project DOI" ;
+        sh:description "Unique and persistent alphanumeric string assigned to the project" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
         sh:path "dataset_url" ;
         sh:name "Dataset URL" ;
         sh:description "URL where the dataset can be found" ;
         sh:datatype xsd:anyURI ;
     ] .
+
+# Define a shape for the dataset columns
+ex:ColumnShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path "column_name" ;
+        sh:name "Column Name" ;
+        sh:description "The name of the dataset column" ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path "column_description" ;
+        sh:name "Column Description" ;
+        sh:description "A description of the data contained in this column" ;
+        sh:datatype xsd:string ;
+    ] .
+
+# Link the dataset and columns to their respective shapes
+ex:Dataset
+    a rdfs:Class ;
+    sh:node ex:DatasetShape ;
+    sh:property [
+        sh:path "hasColumn" ;
+        sh:name "Has Column" ;
+        sh:description "A column within the dataset" ;
+        sh:node ex:ColumnShape ;
+    ] .
+
 
 # Define a shape for the dataset columns
 ex:ColumnShape
@@ -96,7 +130,9 @@ ex:Dataset
       "ex:dataset_collaborators": ["Raphael Fontes", "David Lu!!"],
       "ex:dataset_creation_date": { "@value": "2023-03-29", "@type": "xsd:date" },
       "ex:dataset_license": "CC0: Public Domain",
-      "ex:dataset_url": "https://www.kaggle.com/datasets/unanimad/the-oscar-award"
+      "ex:dataset_DOI": "10.5281/zenodo.10060854",
+      "ex:dataset_url": "http://example.com/dataset/sample"
     }
   ]
 }
+
